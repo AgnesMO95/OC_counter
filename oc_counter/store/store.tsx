@@ -1,5 +1,7 @@
 import { createStore, applyMiddleware } from 'redux'
-import rootReducer from './reducers'
+import rootReducer from './configureStore'
+import thunk, {ThunkMiddleware} from 'redux-thunk'
+import {ActionTypes} from './types'
 
 //STORE - globalized state, holds all the data and state for the application 
 //ACTION - describes what you want to do 
@@ -9,7 +11,10 @@ import rootReducer from './reducers'
 /* const store = createStore(reducer)
  */
 
+//ReturnType grabs the return type of whats in the parameter
+export type AppState = ReturnType<typeof rootReducer>
+
 //const initialState = {}  , initialState
-const store = createStore(rootReducer, applyMiddleware())
+const store = createStore(rootReducer, applyMiddleware(thunk as ThunkMiddleware<AppState, ActionTypes>))
 
 export default store
