@@ -1,10 +1,39 @@
 import type { NextPage } from 'next'
-import Head from 'next/head'
-import Image from 'next/image'
-import styles from '../styles/Home.module.css'
+import styled from 'styled-components'
+import BasicLayout from '../layout/Basic'
+
+const Title = styled.h1`
+  color: red;
+`
 
 const Home: NextPage = () => {
   return (
+    <BasicLayout>
+      <p>hei</p>
+      <div className="upload-cover">
+        <p>Hello</p>
+        <Title> Title </Title>
+        <div className="upload-top">
+          <img src="/upload.svg" />
+        </div>
+        <div className="upload-bottom">
+          <div className="lists">
+            <div className="boxes">
+              <div className="box">
+                <img src="/house/house1.jpg" />
+              </div>
+              <div className="box">
+                <img src="/house/house2.jpg" />
+              </div>
+              <div className="box">
+                <img src="/house/house3.jpg" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </BasicLayout>
+    /*
     <div className={styles.container}>
       <Head>
         <title>Create Next App</title>
@@ -65,7 +94,7 @@ const Home: NextPage = () => {
           </span>
         </a>
       </footer>
-    </div>
+    </div>*/
   )
 }
 
