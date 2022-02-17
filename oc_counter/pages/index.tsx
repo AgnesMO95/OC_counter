@@ -9,9 +9,7 @@ const Title = styled.h1`
 const Home: NextPage = () => {
   return (
     <BasicLayout>
-      <p>hei</p>
       <div className="upload-cover">
-        <p>Hello</p>
         <Title> Title </Title>
         <div className="upload-top">
           <img src="/upload.svg" />

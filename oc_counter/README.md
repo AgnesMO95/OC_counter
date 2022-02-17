@@ -33,33 +33,37 @@ The easiest way to deploy your Next.js app is to use the [Vercel Platform](https
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
 
-
 # Installation for further development (setup of project)
+
 required dependencies
-- npm 
+
+- npm
 - npx
 
 ## NPM
+
 to install node.js, install right version from https://nodejs.org/en/download/, version used 8.3.1
 
-
 ## NPX
-to install npx (https://www.npmjs.com/package/npx) run: 
+
+to install npx (https://www.npmjs.com/package/npx) run:
 npm install -g npx
 
 ## created app by
-npx create-next-app@latest [name of project] --ts (--use-npm)
 
-to run development mode, see what you are making 
+npx create-next-app@latest [name of project] --ts (--use-npm) https://nextjs.org/docs/api-reference/create-next-app
+
+to run development mode, see what you are making
 npm run dev
 
 npm install react-bootstrap bootstrap
 
 Funker ikke:
-npm install @webdeb/next-styles formidable-serverless moment 
+npm install @webdeb/next-styles formidable-serverless moment
 
 npm install --save @types/react-file-reader-input
 
 npm install node-sass concurrently -D
 
-
+styled components next.js and typescript
+https://dev.to/ramonak/nextjs-dashboard-layout-with-typescript-and-styled-components-3ld6

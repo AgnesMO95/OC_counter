@@ -1,8 +1,8 @@
 export const MEDIA = 'MEDIA'
 
 export interface media {
-    type: typeof MEDIA
-    payload: string
+  type: typeof MEDIA
+  payload: string
 }
 
 export type mediaTypes = media

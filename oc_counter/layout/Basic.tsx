@@ -1,4 +1,4 @@
-import { createGlobalStyle } from "styled-components";
+import { createGlobalStyle } from 'styled-components'
 
 export const GlobalStyle = createGlobalStyle`
     //this is the shared style
@@ -17,13 +17,13 @@ export const GlobalStyle = createGlobalStyle`
     // anything else you would like to include
     `
 
-const BasicLayout = ({children}: {children: any}) => {
-    return (
-        <>
-            <GlobalStyle/>
-            {children}
-        </>
-    )
+const BasicLayout = ({ children }: { children: any }) => {
+  return (
+    <>
+      <GlobalStyle />
+      {children}
+    </>
+  )
 }
 
-export default BasicLayout; 
+export default BasicLayout

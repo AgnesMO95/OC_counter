@@ -1,15 +1,15 @@
-import { ActionTypes } from "../types";
+import { ActionTypes } from '../types'
 
+export interface mediaState {}
 
-export interface mediaState{
+const intitialState: mediaState = {}
 
-}
-
-const intitialState: mediaState ={};
-
-export default function mediaReducer(state: mediaState = intitialState, action: ActionTypes/*{type, payload}*/): mediaState {
-    switch(action.type){
-        default:
-            return state;
-    }
+export default function mediaReducer(
+  state: mediaState = intitialState,
+  action: ActionTypes /*{type, payload}*/
+): mediaState {
+  switch (action.type) {
+    default:
+      return state
+  }
 }
