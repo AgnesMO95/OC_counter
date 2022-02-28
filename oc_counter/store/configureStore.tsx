@@ -3,7 +3,7 @@ import mediaReducer from './reducers/mediaReducer'
 
 //combines all the reducers if we would have more
 const rootReducer = combineReducers({
-  mediaReducer: mediaReducer,
+  media: mediaReducer,
 })
 
 export default rootReducer

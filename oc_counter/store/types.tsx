@@ -1,10 +1,9 @@
-export const MEDIA = 'MEDIA'
+export const ADD_FILE_TO_LIST = 'ADD_FILE_TO_LIST'
 
-export interface media {
-  type: typeof MEDIA
-  payload: string
+export interface addFileToList {
+  type: typeof ADD_FILE_TO_LIST
 }
 
-export type mediaTypes = media
+export type mediaTypes = addFileToList
 
-export type ActionTypes = media
+export type ActionTypes = mediaTypes
