@@ -12,16 +12,37 @@ const intitialState: mediaState = {
   fileList: [],
 }
 
-export default function mediaReducer(
+export default (
   state: mediaState = intitialState,
-  action: ActionTypes /*{type, payload}*/
-): mediaState {
+  action: ActionTypes, //{type, payload}
+  { payload }: any
+): mediaState => {
   switch (action.type) {
     case ADD_FILE_TO_LIST:
+      //console.log(payload)
       return {
         ...state,
+        fileList: state.fileList.filter(file => file.name !== payload),
       }
     default:
       return state
   }
 }
+
+/*
+export default function mediaReducer(
+  state: mediaState = intitialState,
+  action: ActionTypes //{type, payload}
+): mediaState {
+  switch (action.type) {
+    case ADD_FILE_TO_LIST:
+      //console.log(payload)
+      return {
+        ...state,
+        //fileList: state.fileList.filter(file => file.name !== payload),
+      }
+    default:
+      return state
+  }
+}
+*/
