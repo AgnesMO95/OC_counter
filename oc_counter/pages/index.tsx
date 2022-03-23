@@ -4,6 +4,7 @@ import BasicLayout from '../layout/Basic'
 //import FileInput, { Result } from 'react-file-reader-input'
 import FileInput, { Result } from 'react-file-reader-input'
 import { useEffect, useState, useRef } from 'react'
+//var sizeOf = require('image-size')
 
 /* Redux */
 import { connect } from 'react-redux'
@@ -114,9 +115,9 @@ const CardImage = styled.img`
   //display: flex;
   //align-items: center;
   //justify-content: center;
-  width: 116px;
-  height: 107px;
-  object-fit: scale-down;
+  //width: 116px;
+  //height: 107px;
+  //object-fit: scale-down;
   //width: 100%;
   //height: auto;
   border-radius: 5px 5px 5px 5px;
@@ -147,7 +148,10 @@ const Home: NextPage = (): JSX.Element => {
     console.log('her')
     results.forEach((res: [ProgressEvent, File]) => {
       const [e, file] = res
-      console.log(file)
+      dispatch(addFileToList(file))
+      console.log(e)
+      //var dimensions = sizeOf(file)
+      //console.log(dimensions.width, dimensions.height)
     })
     console.log(mediaFiles)
   }
@@ -166,31 +170,61 @@ const Home: NextPage = (): JSX.Element => {
     console.log(model)
     setModel(model)
   }
-  /*useEffect(() => {
+  useEffect(() => {
     loadModel()
-  }, [])*/
+  }, [])
 
   //make file to ImageData instead
   const predict = async (imageData: HTMLImageElement, net: tf.GraphModel) => {
-    const img = tf.browser.fromPixels(imageData)
-    const resized = tf.image
-      .resizeBilinear(img, [416, 416])
-      .cast('int32')
-      .expandDims(0)
-    const obj = await net.executeAsync(resized)
-    console.log(obj)
+    var imageHeight = imageData.height
+    console.log(imageHeight)
+    imageHeight = imageData.clientHeight
+    console.log(imageHeight)
+    imageHeight = imageData.offsetHeight
+    console.log(imageHeight)
+    imageHeight = imageData.naturalHeight
+    console.log(imageHeight)
+    var image = imageRef.current
+    if (image) {
+      const newImg = new Image(image.naturalWidth, image.naturalHeight)
+      newImg.src = image.src
+      console.log(image.height)
+      console.log(image.clientHeight)
+      console.log(image.offsetHeight)
+      console.log(image.scrollHeight)
+      console.log(image.naturalHeight)
+      console.log(image.width)
+      console.log(image.clientWidth)
+      console.log(image.offsetWidth)
+      console.log(image.scrollWidth)
+      console.log(image.naturalWidth)
+      //image.width = image.naturalWidth
+      //image.height = image.naturalHeight
+      const img = tf.browser.fromPixels(newImg)
+      console.log(img.shape)
+      console.log(img.size)
+      const resized = tf.image
+        .resizeBilinear(img, [416, 416])
+        .cast('float32')
+        .expandDims(0)
+      const obj = await net.executeAsync(resized)
+      console.log(obj)
 
-    //delete any existing tensors
-    tf.dispose(img)
-    tf.dispose(resized)
-    tf.dispose(obj)
+      //delete any existing tensors
+      tf.dispose(img)
+      tf.dispose(resized)
+      tf.dispose(obj)
+    }
   }
 
   const detect = async () => {
     const image = mediaFiles[0]
+    console.log(image)
     var url = URL.createObjectURL(image)
     const im = new Image()
     im.src = url
+    console.log(im.width)
+    console.log(im.naturalWidth)
     if (model) {
       predict(im, model)
     }
@@ -239,8 +273,13 @@ const Home: NextPage = (): JSX.Element => {
           <Lists>
             <Boxes>
               {mediaFiles.map((file: File) => (
-                <Box>
-                  <CardImage src={URL.createObjectURL(file)} />
+                <Box key={file.name}>
+                  <CardImage
+                    src={URL.createObjectURL(file)}
+                    ref={imageRef}
+                    width={416}
+                    height={416}
+                  />
                 </Box>
               ))}
             </Boxes>
