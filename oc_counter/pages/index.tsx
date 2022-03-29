@@ -16,9 +16,12 @@ import { useSelector, useDispatch } from 'react-redux'
 import { AppState } from '../store/store'
 
 import * as tf from '@tensorflow/tfjs'
+import * as automl from '@tensorflow/tfjs-automl'
 //const tfn = require('@tensorflow/tfjs-node')
 import modelAPI from './api/model'
 import { blob } from 'node:stream/consumers'
+import * as mobilenet from '@tensorflow-models/mobilenet'
+import { arrayBuffer } from 'stream/consumers'
 
 const Title = styled.h1`
   color: red;
@@ -156,7 +159,7 @@ const Home: NextPage = (): JSX.Element => {
     console.log(mediaFiles)
   }
 
-  const [model, setModel] = useState<tf.GraphModel | null>(null)
+  const [model, setModel] = useState<tf.GraphModel | null>(null) //mobilenet.MobileNet  | automl.ObjectDetectionModel
   const imageRef = useRef<HTMLImageElement>(null)
 
   /* 
@@ -167,28 +170,43 @@ const Home: NextPage = (): JSX.Element => {
   const loadModel = async () => {
     //const handler = tfn.io.fileSystem('../public/model.json')
     const model = await tf.loadGraphModel(WEIGHTS)
-    console.log(model)
+    //const model = await automl.loadObjectDetection(WEIGHTS)
+    //console.log(model.summary())
+    //const model = await mobilenet.load()
     setModel(model)
   }
   useEffect(() => {
     loadModel()
   }, [])
 
+  const cropImage = (img: tf.Tensor3D) => {
+    const size = Math.min(img.shape[0], img.shape[1])
+    const centerHeight = img.shape[0] / 2
+    const beginHeight = centerHeight - size / 2
+    const centerWidth = img.shape[1] / 2
+    const beginWidth = centerWidth - size / 2
+    return img.slice([beginHeight, beginWidth, 0], [size, size, 3])
+  }
+
   //make file to ImageData instead
-  const predict = async (imageData: HTMLImageElement, net: tf.GraphModel) => {
+  const predict = async (
+    imageData: HTMLImageElement,
+    model: tf.GraphModel //mobilenet.MobileNet| automl.ObjectDetectionModel
+  ) => {
+    console.log(model)
     var imageHeight = imageData.height
-    console.log(imageHeight)
+    /*console.log(imageHeight)
     imageHeight = imageData.clientHeight
     console.log(imageHeight)
     imageHeight = imageData.offsetHeight
     console.log(imageHeight)
     imageHeight = imageData.naturalHeight
-    console.log(imageHeight)
+    console.log(imageHeight)*/
     var image = imageRef.current
     if (image) {
       const newImg = new Image(image.naturalWidth, image.naturalHeight)
       newImg.src = image.src
-      console.log(image.height)
+      /*console.log(image.height)
       console.log(image.clientHeight)
       console.log(image.offsetHeight)
       console.log(image.scrollHeight)
@@ -197,34 +215,125 @@ const Home: NextPage = (): JSX.Element => {
       console.log(image.clientWidth)
       console.log(image.offsetWidth)
       console.log(image.scrollWidth)
-      console.log(image.naturalWidth)
+      console.log(image.naturalWidth)*/
       //image.width = image.naturalWidth
       //image.height = image.naturalHeight
-      const img = tf.browser.fromPixels(newImg)
-      console.log(img.shape)
-      console.log(img.size)
-      const resized = tf.image
-        .resizeBilinear(img, [416, 416])
-        .cast('float32')
-        .expandDims(0)
-      const obj = await net.executeAsync(resized)
+
+      console.log(image.naturalHeight)
+      console.log(image.naturalWidth)
+
+      const img = tf.browser.fromPixels(image, 3)
+
+      console.log('Bilde')
+      //console.log(img)
+      //console.log(img.shape)
+      //console.log(img.size)
+      const tfimg = img.transpose([0, 1, 2]).expandDims()
+      //console.log('Bilde2')
+      //console.log(tfimg)
+      const resized = img.cast('float32').expandDims(0) //tf.image.resizeBilinear(img, [416, 416]) //.cast('float32').expandDims(0)
+      const batchedImage = resized.div(tf.scalar(255))
+      //const prediction = await model.predict(resized) does not work
+      //const pred = await model.classify(resized)
+      //console.log(pred)
+
+      //var obj = await model.executeAsync(batchedImage)
+      const input = cropImage(img).expandDims(0)
+      const input2 = input.toFloat().div(tf.scalar(255))
+      const obj = await model.executeAsync(input2)
+
+      //let conv_dims = obj.shape.slice(1,3)
+      if (obj instanceof tf.Tensor) {
+        console.log('HEEEEEEEEER')
+        let convDims = obj.shape.slice(1, 3)
+
+        /*const pred = boxes.filter(function (value, index, arr) {
+          return (index + 1) % 5 == 0
+        })
+        for (let index = 0; boxes.length; index++) {
+          if ((index + 1) % 5 == 0) {
+          } else {
+            boxes.append
+          }
+        }*/
+        //console.log(boxes)
+        //console.log(pred)
+        var boxes = new Array()
+        var pred = new Array()
+
+        const getBoxesAndPred = (
+          arr: Uint8Array | Float32Array | Int32Array
+        ) => {
+          for (let index = 0; index < arr.length; index++) {
+            if ((index + 1) % 5 == 0) {
+              pred.push(arr[index])
+            } else {
+              boxes.push(arr[index])
+            }
+          }
+        }
+
+        getBoxesAndPred(obj.dataSync())
+        const tensor = tf.tensor2d(boxes, [boxes.length / 4, 4])
+        console.log(tensor.arraySync())
+        console.log(boxes, pred)
+        const selected_indices = tf.image.nonMaxSuppression(
+          tensor,
+          pred,
+          5,
+          0.5,
+          0.26
+        )
+        const selected_boxes = tf.gather(tensor, selected_indices)
+        console.log(selected_indices.print(), selected_boxes.print())
+        /*
+        const getEveryNth = (
+          arr: Uint8Array | Float32Array | Int32Array,
+          rowLength: number,
+          colIdx: number
+        ) => arr.filter((_, i) => i % rowLength === colIdx)
+*/
+        //console.log(getEveryNth(obj.dataSync(), 5, 4))
+        console.log(obj.dataSync())
+      } else {
+        console.log('dette er den andre ')
+        console.log(obj[0].dataSync())
+      }
+      console.log('ikke i if sentence')
       console.log(obj)
 
+      /*const obj = await model.executeAsync(resized, [
+        'detection_boxes',
+        'detection_scores',
+        'detection_classes',
+        'num_detections',
+      ])
+      //console.log(prediction)*/
+      //console.log('Model')
+      //console.log(obj)
+
       //delete any existing tensors
+
       tf.dispose(img)
       tf.dispose(resized)
       tf.dispose(obj)
+      /*
+      if (model instanceof automl.ObjectDetectionModel) {
+        const options = { score: 0.5, iou: 0.5, topk: 20 }
+        const predictions = await model.detect(image, options)
+        console.log(predictions)
+      }*/
     }
   }
 
   const detect = async () => {
     const image = mediaFiles[0]
-    console.log(image)
+    //console.log(image)
     var url = URL.createObjectURL(image)
     const im = new Image()
     im.src = url
-    console.log(im.width)
-    console.log(im.naturalWidth)
+    //console.log(im.width)
+    //console.log(im.naturalWidth)
     if (model) {
       predict(im, model)
     }
