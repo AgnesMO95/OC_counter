@@ -129,10 +129,10 @@ const Canvas = styled.canvas`
   z-index: 9;
   // textAlign: 'center';
   //zIndex: 8;
-  width: 416;
-  height: 416;
+  width: 416px;
+  height: 416px;
 
-  //background-color: red;
+  //background-color: yellow;
 `
 // Typescript
 /**
@@ -201,6 +201,7 @@ const Home: NextPage = (): JSX.Element => {
 
     var image = imageRef.current
     var canvas = canvasRef.current
+    console.log(image?.height)
 
     if (image) {
       const newImg = new Image(image.naturalWidth, image.naturalHeight)
@@ -249,15 +250,19 @@ const Home: NextPage = (): JSX.Element => {
           0.26
         )
         const selected_boxes = tf.gather(tensor, selected_indices)
+        console.log(selected_indices.arraySync())
+        console.log(selected_boxes.arraySync())
+        const scores = selected_indices.arraySync().map(i => pred[i])
+        boxes = selected_boxes.arraySync()
 
-        const scores = pred[selected_indices.arraySync()[0]]
-        boxes = [selected_boxes.arraySync()[0]]
         if (canvas) {
+          canvas.width = image?.width
+          canvas.height = image?.height
           console.log('canvas')
           const ctx = canvas.getContext('2d')
           if (ctx) {
             requestAnimationFrame(() => {
-              drawRect(boxes, scores, 0.2, 416, 416, ctx)
+              drawRect(boxes, scores, 0.2, image?.width, image?.height, ctx)
             })
           }
         }
@@ -286,31 +291,47 @@ const Home: NextPage = (): JSX.Element => {
     console.log(scores)
     for (let i = 0; i < boxes.length; i++) {
       console.log('for loop')
-      if (boxes[i] && scores > threshold) {
+      if (boxes[i] && scores[i] > threshold) {
         console.log('draw')
         //ensure valid detection
         //set variables
+        console.log(boxes[i])
         const [y, x, height, width] = boxes[i]
         const text = 'Osteoclast'
 
         //set styling
         ctx.strokeStyle = 'red'
         ctx.lineWidth = 5
-        ctx.fillStyle = 'white'
+        ctx.fillStyle = 'black'
         ctx.font = '20px Arial'
-
+        console.log(canvasRef.current?.width, canvasRef.current?.height)
+        console.log(imgHeight)
         //draw
         ctx.beginPath()
         ctx.fillText(
-          text + ' - ' + Math.round(scores * 100) / 100,
+          text + ' - ' + Math.round(scores[i] * 100) / 100,
           x * imgWidth,
           y * imgHeight - 10
         )
+        console.log(x, y, width, height)
+        console.log([
+          x * imgWidth,
+          y * imgHeight,
+          width * imgWidth, // / 2
+          height * imgHeight,
+        ])
+        console.log([
+          x * imgWidth,
+          y * imgHeight,
+          width * (imgWidth / 2), // / 2
+          height * (imgHeight / 1.5),
+        ])
+        //convert from % to px
         ctx.rect(
           x * imgWidth,
           y * imgHeight,
-          (width * imgWidth) / 2,
-          (height * imgHeight) / 1.5
+          width * imgWidth - x * imgWidth, // / 2
+          height * imgHeight - y * imgHeight
         )
         ctx.stroke()
       }
