@@ -11,8 +11,15 @@ export const GlobalStyle = createGlobalStyle`
         box-sizing: inherit;
     }
 
+    body {
+        background-color: #687ddb;
+        position: relative;
+    }
+
     h1 {
-        color:  yellow !important; // the important is just to show that the style works!
+        color:  #372197 !important; // the important is just to show that the style works!
+        position: right;
+        margin-left: 20px;
     }
     // anything else you would like to include
     `
