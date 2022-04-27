@@ -170,6 +170,7 @@ const Home: NextPage = (): JSX.Element => {
   const [model, setModel] = useState<tf.GraphModel | null>(null) //mobilenet.MobileNet  | automl.ObjectDetectionModel
   const imageRef = useRef<HTMLImageElement>(null)
   const canvasRef = useRef<HTMLCanvasElement>(null)
+  const [count, setCount] = useState<number | null>(null)
 
   /* 
   model: tf.Model;
@@ -254,6 +255,7 @@ const Home: NextPage = (): JSX.Element => {
         console.log(selected_boxes.arraySync())
         const scores = selected_indices.arraySync().map(i => pred[i])
         boxes = selected_boxes.arraySync()
+        setCount(boxes.length)
 
         if (canvas) {
           canvas.width = image?.width
@@ -330,7 +332,7 @@ const Home: NextPage = (): JSX.Element => {
         ctx.rect(
           x * imgWidth,
           y * imgHeight,
-          width * imgWidth - x * imgWidth, // / 2
+          width * imgWidth - x * imgWidth, // width of rect
           height * imgHeight - y * imgHeight
         )
         ctx.stroke()
@@ -386,6 +388,7 @@ const Home: NextPage = (): JSX.Element => {
           ></FileInput>
         </UploadTop>
         <UploadBottom>
+          {count && <h3>Number of OCs: {count}</h3>}
           <Lists>
             <Boxes>
               {mediaFiles.map((file: File) => (
