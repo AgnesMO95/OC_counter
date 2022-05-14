@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "secure-pottery-344809",
+  "private_key_id": "2a98017946286b380d35b03eb2de33317a36d637",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQCjqu+Ab6tBBzam\nEcignIDDsJsQMHnlMnxb0GeaTrKx4jHC4KR8ELEWvlDdmPZjTneyKKz6GSFdYm4H\ncBuOlHXjwYK5owBkMlwj1rJ85JJdjXv3trXsuAU/hhwvxTQP5p+v5pgflThwcUja\njcVssTVK9qKehTiU0GN7pAGFtJCQ9TrdzpcuO5fncdLefHyF4f2OTE3aoLX8xO9R\n7Ig2i+v/p5AS3x5RGrJ/oGBNHMvjZ8bbBD+vpsFhKIRVqmFmFTAn2KI9h/+TbGl4\nKprPotwnUY46GWqx5MMktPViMq9AWkG6SrEsYL99PgVFW91oMUx3Wq4t1UhDw6qI\nMEKlDaR/AgMBAAECggEABcCq1WFXbBw0TAcA/cAyeG5bLOj/R9KL83AyTAarGjyA\nkkByF5hAmTOMRRWsx1XJOD5cwhejCBS/GEzU8yB9ukkhbqPvjhYFDg9sS55/FIG2\nE0FdSJo5OP/eOsGcMFjjUPvyad3FU5JvxJrKDyV1YZKkqZy2HejrLjvX/9qWYDnn\n6u5jR3P/zIPPTgg3mvqVC6YdpxhfL8+YUAlu+JIgzUNjtPgTJXBkSEFSpUF+Gr27\nDP/ml8CaMVuCvjEHeWmdLeB3ICX0p2SnLORqyO5rzLKcKX595aQBTPms4FofnJNl\naqixw0wsgg1KdxTyTNRVcms+14CafUcZf0cKnkoN+QKBgQDfzaGBZwgZxW0Cx1h5\nvu5Q9xaGGnUQdMJZPyzNnkT8wmY/E4xJbgcisfk3msczhO72OG0siOr0SgBQ0RLK\nnKHRie3bQUYHs/hGJ1XJo0n7sC0/FNlZguw95m7LW40HCkykWO+IfW/3IkVgA1aK\nWzlJmcOXfJ39JvIfkxN6X0RCGQKBgQC7NphOpDfawzVX6kuPSS52RoIKhPz+eYf9\nhoZFZvpD77eRTggUkOM/ts2RNecyp4GP7cdMF1HW/GgJirrbJD0Dp1j3tJ87ki45\n7T5uckiuVIiDXhQuSUPgbpCkKRlaVrngDii2U3u5KQnQZHuHpHye0NgEqSouLM/m\nmiTZ6AZeVwKBgGG93sEzDDilHnzOLvfMySwXHYEn4OR0+cQccSbD7oEtLZZypRwU\nr40ZiSwdrs3zSqHB9vwyN9rEzup8xOY0DgADaxwMn9cRZGbPGwpbBB6lzLz2EA6l\nvSMzlkO+EhN3Dg3gwYwsrE+UahQKoSr/uD9Kpj9sr1s2PRxJEYKqRJdRAoGAGLiW\n2BubPIn2a0uG+r7BIeEhnt38wmWt7W5sIJH+jiYDaW6SZpTTTUCIWJpzkx7HXwgY\n/xU9O1RNMKVfEzzvyaG5f8wcErO04vVO/yqcKlkDRcWQiKQoEGTJOMQskt9M4Cc+\nfQT9G3At2ZTLMxgnVJljTQpBhaNpOJw2LYgT/zUCgYAdDm9MeIEl5zJn6MYJUhrD\nYSmgIzcflwHupowz8D14N3iHRXd2TBPKHhAnQcuD3FDSsLnyBQOkeT7Rk0Vn0c+e\n8SS1JZ0aKFt7tO40o23xyfvGCKZJviAOwmyCj7Rp1T/ZeK5vRBcnVHXTUbqAtrBO\nMK3eLfhZuzkiD0mX9v7p4A==\n-----END PRIVATE KEY-----\n",
+  "client_email": "cloud-storage@secure-pottery-344809.iam.gserviceaccount.com",
+  "client_id": "100351177109163729600",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/cloud-storage%40secure-pottery-344809.iam.gserviceaccount.com"
+}

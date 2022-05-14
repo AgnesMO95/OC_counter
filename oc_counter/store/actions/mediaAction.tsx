@@ -8,7 +8,7 @@ import { ActionTypes, addFileToList, ADD_FILE_TO_LIST } from '../types'
 type MyType = ThunkAction<void, AppState, unknown, ActionTypes>
 
 export const uploadAction /**: ActionTypes */ =
-  (mediaFiles: File): any /** type of what to return :addFileToList*/ =>
+  (mediaFiles: File) /** type of what to return :addFileToList*/ =>
   async (dispatch: ThunkDispatch<any, any, AnyAction>, getState: any) => {
     //type: ADD_FILE_TO_LIST
 
@@ -20,7 +20,7 @@ export const uploadAction /**: ActionTypes */ =
       const existingFiles = data.fileList.map((f: File) => f.name)
       files.filter(f => !existingFiles.includes(f.name))
 
-      return dispatch({ type: ADD_FILE_TO_LIST, payload: File })
+      return dispatch({ type: ADD_FILE_TO_LIST, payload })
     }
   }
 

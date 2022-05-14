@@ -1,6 +1,6 @@
 import type { NextPage } from 'next'
 import styled, { AnyStyledComponent } from 'styled-components'
-import BasicLayout from '../layout/Basic'
+import BasicLayout from '../components/layout/Basic'
 import FileInput, { Result } from 'react-file-reader-input'
 import { useEffect, useState, useRef } from 'react'
 
@@ -14,6 +14,8 @@ import { useSelector, useDispatch } from 'react-redux'
 import { AppState } from '../store/store'
 
 import * as tf from '@tensorflow/tfjs'
+
+import SplitImage from '../components/splitImage'
 
 const Title = styled.h1`
   color: red;
@@ -171,7 +173,7 @@ const Home: NextPage = (): JSX.Element => {
   const imageRef = useRef<HTMLImageElement>(null)
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const [count, setCount] = useState<number | null>(null)
-
+  const [shouldTile, setShouldTile] = useState<boolean>(false)
   /* 
   model: tf.Model;
   predictions: any; */
@@ -398,9 +400,24 @@ const Home: NextPage = (): JSX.Element => {
                 </Box>
               ))}
             </Boxes>
+            {shouldTile && (
+              <SplitImage
+                inputCanvas={canvasRef.current}
+                image={imageRef.current}
+              />
+            )}
           </Lists>
         </UploadBottom>
         <SendButton>
+          <Button
+            onClick={() =>
+              canvasRef.current && imageRef.current
+                ? setShouldTile(true)
+                : setShouldTile(false)
+            }
+          >
+            Tile
+          </Button>
           <Button onClick={() => detect()}>Send</Button>
         </SendButton>
       </UploadCover>
