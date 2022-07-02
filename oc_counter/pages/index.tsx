@@ -256,10 +256,11 @@ const Home: NextPage = (): JSX.Element => {
         )
         const selected_boxes = tf.gather(tensor, selected_indices)
         console.log(selected_indices.arraySync())
-        console.log(selected_boxes.arraySync())
+        console.log(selected_boxes.dataSync())
         const scores = selected_indices.arraySync().map(i => pred[i])
-        boxes = selected_boxes.arraySync()
-        setCount(boxes.length)
+        var boxes2 = selected_boxes.arraySync()
+        console.log(boxes2)
+        setCount(boxes2.length)
 
         if (canvas) {
           canvas.width = image?.width
@@ -268,7 +269,7 @@ const Home: NextPage = (): JSX.Element => {
           const ctx = canvas.getContext('2d')
           if (ctx) {
             requestAnimationFrame(() => {
-              drawRect(boxes, scores, 0.2, image?.width, image?.height, ctx)
+              drawRect(boxes2, scores, 0.2, image?.width, image?.height, ctx)
             })
           }
         }
@@ -288,8 +289,8 @@ const Home: NextPage = (): JSX.Element => {
     //classes: any,
     scores: number[],
     threshold: number,
-    imgWidth: number,
-    imgHeight: number,
+    imgWidth: any,
+    imgHeight: any,
     ctx: CanvasRenderingContext2D //canvas
   ) => {
     console.log('drawrect')
