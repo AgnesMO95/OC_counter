@@ -9,7 +9,7 @@
         "dtype": "DT_FLOAT",
         "tensorShape": {
           "dim": [
-            { "size": "1" },
+            { "size": "-1" },
             { "size": "416" },
             { "size": "416" },
             { "size": "3" }
@@ -22,8 +22,7 @@
         "name": "Identity:0",
         "dtype": "DT_FLOAT",
         "tensorShape": {
-          "dim": [{ "size": "1" }, { "size": "1" }, { "size": "1" }],
-          "dim2": [{ "size": "1" }, { "size": "1" }, { "size": "1" }]
+          "dim": [{ "size": "-1" }, { "size": "-1" }, { "size": "-1" }]
         }
       }
     }
@@ -1826,7 +1825,7 @@
           "shape": {
             "shape": {
               "dim": [
-                { "size": "1" },
+                { "size": "-1" },
                 { "size": "416" },
                 { "size": "416" },
                 { "size": "3" }
