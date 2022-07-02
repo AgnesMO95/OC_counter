@@ -219,11 +219,13 @@ const Home: NextPage = (): JSX.Element => {
       const resized = img.cast('float32').expandDims(0) //tf.image.resizeBilinear(img, [416, 416]) //.cast('float32').expandDims(0)
       const batchedImage = resized.div(tf.scalar(255))
 
-      const input = cropImage(img).expandDims(0)
+      const input = img.expandDims(0)
       const input2 = input.toFloat().div(tf.scalar(255))
       const obj = await model.executeAsync(input2)
 
       if (obj instanceof tf.Tensor) {
+        console.log('heer')
+        console.log(obj.shape)
         let convDims = obj.shape.slice(1, 3)
 
         var boxes = new Array()
