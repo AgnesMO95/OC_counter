@@ -228,8 +228,8 @@ const Home: NextPage = (): JSX.Element => {
         console.log(obj.shape)
         let convDims = obj.shape.slice(1, 3)
 
-        var boxes = new Array()
-        var pred = new Array()
+        var boxes = new Array() as number[]
+        var pred = new Array() as number[]
 
         const getBoxesAndPred = (
           arr: Uint8Array | Float32Array | Int32Array
@@ -286,10 +286,10 @@ const Home: NextPage = (): JSX.Element => {
   const drawRect = (
     boxes: any,
     //classes: any,
-    scores: any,
-    threshold: any,
-    imgWidth: any,
-    imgHeight: any,
+    scores: number[],
+    threshold: number,
+    imgWidth: number,
+    imgHeight: number,
     ctx: CanvasRenderingContext2D //canvas
   ) => {
     console.log('drawrect')
